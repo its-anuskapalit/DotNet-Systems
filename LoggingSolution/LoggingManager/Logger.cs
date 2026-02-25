@@ -47,13 +47,12 @@ namespace LoggingManager
                     _instance = new Logger(logDirectory);
                 }
             }
-        }
+     }
         public void Log(LogLevel level, string message, Exception ex = null)
         {
             var log = FormatMessage(level, message, ex);
             _queue.Add(log);
         }
-
         public void Info(string message) => Log(LogLevel.Info, message);
         public void Warning(string message) => Log(LogLevel.Warning, message);
         public void Debug(string message) => Log(LogLevel.Debug, message);
@@ -76,14 +75,11 @@ namespace LoggingManager
         {
             var date = DateTime.Now.ToString("yyyy-MM-dd");
             var baseFile = Path.Combine(_logDirectory, $"log_{date}.txt");
-
             if (!File.Exists(baseFile))
                 return baseFile;
-
             var info = new FileInfo(baseFile);
             if (info.Length < _maxFileSizeBytes)
                 return baseFile;
-
             int index = 1;
             string newFile;
             do
@@ -101,7 +97,6 @@ namespace LoggingManager
             sb.Append($"{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff}");
             sb.Append($" | {level.ToString().ToUpper()}");
             sb.Append($" | {message}");
-
             if (ex != null)
             {
                 sb.Append($" | EX: {ex.Message}");
